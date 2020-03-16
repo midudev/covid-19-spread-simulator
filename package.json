@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "cd src && for f in ./*; do minify $f > ../public/$f; done;",
+    "build": "npm run create:public && npm run minify:files && npm run copy:assets",
+    "create:public": "mkdir -p public",
+    "minify:files": "cd src && for f in ./*; do minify $f > ../public/$f; done;",
+    "copy:assets": "cp -r ./assets/ ./public/assets",
     "dev": "servor src index.html 1234 --browser --reload",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
