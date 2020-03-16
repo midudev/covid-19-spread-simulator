@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COVID-19 Spread Simulator 🦠</title>
+  <link as="script" rel="preload" href="./p5.min.js" />
+  <script src="./p5.min.js"></script>
+  <script type="module" src="./app.js"></script>
+  <style>
+    html {
+      box-sizing: border-box;
+    }
+    
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+
+    body {
+      align-items: center;
+      background-image: radial-gradient(#D7D7D7 1px, transparent 1px), radial-gradient(#d7d7d7 1px, transparent 1px);
+      background-position: 0 0, 25px 25px;
+      background-size: 50px 50px;
+      display: flex;
+      flex-direction: column;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      justify-content: center;
+      margin: 0 auto;
+      user-select: none;
+      width: 360px;
+    }
+
+    h1 {
+      font-size: 23px;
+      text-align: center;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    canvas {
+      border: 1px solid #aaa;
+    }
+
+    svg {
+      margin-bottom: 1px;
+      transform: scaleY(-1);
+    }
+
+    #count {
+      display: flex;
+      justify-content: space-around;
+    }
+
+    #count div {
+      margin-bottom: 16px;
+    }
+
+    #count span {
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    footer {
+      padding-bottom: 8px;
+      color: #777;
+      font-size: 12px;
+    }
+
+    footer a {
+      border-bottom: 1px dotted currentColor;
+      color: #444;
+      text-decoration: none;
+    }
+
+    form {
+      display: flex;
+      justify-content: space-around;
+    }
+
+    label {
+      align-items: center;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    #canvas {
+      margin: auto;
+      padding-bottom: 16px;
+      position: relative;
+    }
+
+    #replay {
+      align-items: center;
+      background: rgba(255, 255, 255, .85);
+      cursor: pointer;
+      display: flex;
+      height: 100%;
+      font-weight: 500;
+      font-size: 21px;
+      justify-content: center;
+      position: absolute;
+      width: 100%;
+    }
+
+    #death-count {
+      display: none;
+    }
+
+    #death-count.show {
+      display: block;
+    }
+
+    @media (min-width: 800px) {
+      body {
+       width: 800px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <h1>COVID-19 Spread Simulator 🦠</h1>
+  <main>
+    <header>
+      <div id="count">
+        <div>Healthy<br /><span id="well">0</span></div>
+        <div>Recovered<br /><span id="recovered">0</span></div>
+        <div>Sick<br /><span id="infected">0</span></div>
+        <div id="death-count">Deaths<br /><span id="death">0</span></div>
+      </div>
+      <form>
+        <label aria-label="Activate People Stay Home filter" title="People stay home">
+          <input id="stay-home" type="checkbox">🏠People stay home
+        </label>
+        <label aria-label="Activate Deaths provoked by virus" title="Deaths provoked by virus">
+          <input id="deaths" type="checkbox">☠️ Show deaths
+        </label>
+      </form>
+      <svg id="graph" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="50" width="100%" aria-labelledby="Graph of virus spread" role="img">
+        <title>Graph of virus spread</title>
+      </svg>
+    </header>
+    <section>
+      <div id="canvas">
+        <div id="replay" style='display: none'>🔁 Run a new simulation</div>
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    Based on <a target="_blank" rel="noopener nofollow" href='https://www.washingtonpost.com/graphics/2020/world/corona-simulator/'>Washington Post article</a> | <a href='http://github.com/midudev/virus-simulator'>Source Code</a> | By <a href='https://midu.dev'>@midudev</a>
+  </footer>
+</body>
+</html>
