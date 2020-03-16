@@ -4,7 +4,8 @@ import {
   DESKTOP_CANVAS_SIZE,
   STARTING_BALLS,
   RUN,
-  STATIC_PEOPLE_PERCENTATGE
+  STATIC_PEOPLE_PERCENTATGE,
+  STATES
 } from './options.js'
 
 import {
@@ -32,7 +33,7 @@ export const canvas = new window.p5(sketch => {
     Object.keys(STARTING_BALLS).forEach(state => {
       Array.from({ length: STARTING_BALLS[state] }, () => {
         const hasMovement = RUN.filters.stayHome
-          ? sketch.random(0, 100) < STATIC_PEOPLE_PERCENTATGE
+          ? sketch.random(0, 100) < STATIC_PEOPLE_PERCENTATGE || state === STATES.infected
           : true
 
         balls[id] = new Ball({

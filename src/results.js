@@ -44,7 +44,7 @@ const updateGraph = () => {
   graphElement.insertAdjacentHTML('beforeend', newGraphPoint)
 }
 
-export const resetValues = (isDesktopNewValue) => {
+export const resetValues = (isDesktopNewValue = isDesktop) => {
   graphElement.innerHTML = ''
   replayElement.style.display = 'none'
   graphPoint = 0
