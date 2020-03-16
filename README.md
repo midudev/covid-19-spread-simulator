@@ -12,3 +12,4 @@ Planned content:
 - Iframe support
 - I18N
 - New strategies
+- Improve the code so I don't get so ashamed. 😳
