@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "cd src && for f in ./*; do minify $f > ../lib/$f; done;",
+    "build": "cd src && for f in ./*; do minify $f > ../public/$f; done;",
     "dev": "servor src index.html 1234 --browser --reload",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
