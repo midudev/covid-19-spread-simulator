@@ -1,8 +1,9 @@
 {
   "name": "virus-spread",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "private": true,
   "description": "",
-  "main": "index.js",
+  "main": "",
   "scripts": {
     "build": "npm run create:public && npm run minify:files && npm run copy:assets",
     "create:public": "mkdir -p public",
@@ -12,7 +13,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Miguel Ángel Durán García - https://midu.dev",
   "license": "ISC",
   "devDependencies": {
     "minify": "5.1.0",
