@@ -1,4 +1,6 @@
-# COVID-19 (Coronavirus) spread simulator
+# COVID-19 (Coronavirus) spread simulator 🦠
+
+![Coronavirus Spread Simulator](https://corona-virus-spread-simulator.midudev.now.sh/assets/og.jpg)
 
 [Based on Washington Post Article: Why outbreaks like coronavirus spread exponentially, and how to “flatten the curve” - Washington Post](https://www.washingtonpost.com/graphics/2020/world/corona-simulator/)
 
