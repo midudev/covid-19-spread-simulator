@@ -47,7 +47,7 @@ export class Ball {
     for (let i = this.id + 1; i < others.length; i++) {
       const otherBall = others[i]
       const { state, x, y } = otherBall
-      if (state === STATES.death) return
+      if (state === STATES.death) continue
 
       const dx = x - this.x
       const dy = y - this.y

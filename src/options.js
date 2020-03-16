@@ -41,7 +41,7 @@ export const RUN = {
   tick: 0
 }
 
-export const MORTALITY_PERCENTATGE = 2
+export const MORTALITY_PERCENTATGE = 5
 export const SPEED = 1
 export const TOTAL_TICKS = 1600
 export const TICKS_TO_RECOVER = 500
