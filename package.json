@@ -17,15 +17,29 @@
   "author": "Miguel Ángel Durán García - https://midu.dev",
   "license": "ISC",
   "devDependencies": {
+    "husky": "4.2.3",
     "minify": "5.1.0",
     "servor": "3.2.0",
     "standard": "14.3.3"
   },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint"
+    }
+  },
   "eslintConfig": {
     "extends": "eslint-config-standard",
     "rules": {
-      "indent": ["error", 2],
-      "max-len": ["error", { "code": 100 }]
+      "indent": [
+        "error",
+        2
+      ],
+      "max-len": [
+        "error",
+        {
+          "code": 100
+        }
+      ]
     }
   }
 }
