@@ -9,6 +9,7 @@
     "create:public": "mkdir -p public",
     "minify:files": "cd src && for f in ./*; do minify $f > ../public/$f; done;",
     "copy:assets": "cp -r ./assets/ ./public/assets",
+    "lint": "eslint src",
     "dev": "servor src index.html 1234 --browser --reload",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,6 +22,10 @@
     "standard": "14.3.3"
   },
   "eslintConfig": {
-    "extends": "eslint-config-standard"
+    "extends": "eslint-config-standard",
+    "rules": {
+      "indent": ["error", 2],
+      "max-len": ["error", { "code": 100 }]
+    }
   }
 }

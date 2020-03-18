@@ -26,7 +26,7 @@ const matchMedia = window.matchMedia('(min-width: 800px)')
 
 let isDesktop = matchMedia.matches
 
-export const canvas = new window.p5(sketch => {
+export const canvas = new window.p5(sketch => { // eslint-disable-line
   const startBalls = () => {
     let id = 0
     balls = []
