@@ -28,11 +28,14 @@ export const STATES = {
 	death: 'death'
 }
 
+export const COUNTERS = { ...STATES, 'max-infected': 'max-infected' }
+
 export const STARTING_BALLS = {
 	[STATES.infected]: 1,
 	[STATES.well]: 199,
 	[STATES.recovered]: 0,
-	[STATES.death]: 0
+	[STATES.death]: 0,
+	'max-infected': 0
 }
 
 export const RUN = {
