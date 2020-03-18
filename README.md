@@ -16,7 +16,7 @@ And start the development server with:
 npm run dev
 ```
 
-## Browser support
+## Browser support
 
 This project is using EcmaScript Modules, therefore, only browsers with this compatibility will work. (Sorry Internet Explorer 11 and old Edge users).
 
