@@ -1,8 +1,8 @@
 {
-  "name": "virus-spread",
+  "name": "coronavirus-spread-simulator",
   "version": "1.0.1",
   "private": true,
-  "description": "",
+  "description": "Simulator about how Coronavirus spreads with free movement of people and confinement",
   "main": "",
   "scripts": {
     "build": "npm run create:public && npm run minify:files && npm run copy:assets",
