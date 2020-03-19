@@ -9,6 +9,7 @@
     "create:public": "mkdir -p public",
     "minify:files": "cd src && for f in ./*; do minify $f > ../public/$f; done;",
     "copy:assets": "cp -r ./assets/ ./public/assets",
+    "lint": "eslint src",
     "dev": "servor src index.html 1234 --browser --reload",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,11 +17,29 @@
   "author": "Miguel Ángel Durán García - https://midu.dev",
   "license": "ISC",
   "devDependencies": {
+    "husky": "4.2.3",
     "minify": "5.1.0",
     "servor": "3.2.0",
     "standard": "14.3.3"
   },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint"
+    }
+  },
   "eslintConfig": {
-    "extends": "eslint-config-standard"
+    "extends": "eslint-config-standard",
+    "rules": {
+      "indent": [
+        "error",
+        2
+      ],
+      "max-len": [
+        "error",
+        {
+          "code": 100
+        }
+      ]
+    }
   }
 }
