@@ -3,4 +3,4 @@ package-lock.json
 .now
 .DS_Store
 dist
-.cache
+/.cache
