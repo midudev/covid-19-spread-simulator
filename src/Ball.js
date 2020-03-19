@@ -1,11 +1,11 @@
 import {
-	BALL_RADIUS,
-	COLORS,
-	MORTALITY_PERCENTATGE,
-	TICKS_TO_RECOVER,
-	RUN,
-	SPEED,
-	STATES
+  BALL_RADIUS,
+  COLORS,
+  MORTALITY_PERCENTATGE,
+  TICKS_TO_RECOVER,
+  RUN,
+  SPEED,
+  STATES
 } from './options.js'
 import { checkCollision, calculateChangeDirection } from './collisions.js'
 
