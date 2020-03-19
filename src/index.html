@@ -36,16 +36,8 @@
 		/>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link as="script" rel="preload" href="./p5.min.js" />
-		<link as="script" rel="modulepreload" href="./app.js" />
-		<link as="script" rel="modulepreload" href="./options.js" />
-		<link as="script" rel="modulepreload" href="./dom.js" />
-		<link as="script" rel="modulepreload" href="./Ball.js" />
-		<link as="script" rel="modulepreload" href="./results.js" />
-		<link as="script" rel="modulepreload" href="./collisions.js" />
-
-		<script defer src="./p5.min.js"></script>
-		<script type="module" src="./app.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+		<script async src="./app.js"></script>
 		<style>
 			html {
 				box-sizing: border-box;
@@ -91,6 +83,7 @@
 				margin: 0 auto;
 				user-select: none;
 				width: 360px;
+				min-height: 100vh;
 			}
 
 			h1 {

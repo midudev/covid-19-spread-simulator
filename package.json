@@ -5,17 +5,18 @@
 	"description": "Simulator about how Coronavirus spreads with free movement of people and confinement",
 	"main": "",
 	"scripts": {
+		"prebuild": "rm -rf dist",
 		"lint": "eslint src",
-		"dev": "servor src index.html 1234 --browser --reload",
+		"build": "parcel build ./src/index.html",
+		"dev": "parcel ./src/index.html",
+		"start": "npm run dev",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
 	"author": "Miguel Ángel Durán García - https://midu.dev",
 	"license": "ISC",
 	"devDependencies": {
-		"husky": "4.2.3",
-		"minify": "5.1.0",
-		"servor": "3.2.0",
+		"parcel-bundler": "^1.12.4",
 		"standard": "14.3.3"
 	},
 	"husky": {
@@ -34,5 +35,6 @@
 				}
 			]
 		}
-	}
+	},
+	"dependencies": {}
 }
