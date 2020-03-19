@@ -97,10 +97,12 @@
     #count {
       display: flex;
       justify-content: space-around;
+      flex-wrap: wrap;
     }
 
     #count div {
       margin-bottom: 16px;
+      padding: 0 10px;
     }
 
     #count span {
@@ -191,6 +193,7 @@
         <div>Recovered<br /><span id="recovered">0</span></div>
         <div>Sick<br /><span id="infected">0</span></div>
         <div id="death-count">Deaths<br /><span id="death">0</span></div>
+        <div>Max Concurrently Sick<br /><span id="max-concurrent-infected">0</span></div>
       </div>
 
       <svg id="graph" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="50" width="100%" aria-labelledby="Graph of virus spread" role="img">

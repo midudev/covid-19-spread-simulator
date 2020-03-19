@@ -3,6 +3,7 @@ import {
   RUN,
   TOTAL_TICKS,
   STATES,
+  COUNTERS,
   resetRun
 } from './options.js'
 
@@ -17,7 +18,7 @@ const matchMedia = window.matchMedia('(min-width: 800px)')
 let isDesktop = matchMedia.matches
 
 const domElements = Object.fromEntries(
-  Object.keys(STATES).map(state => {
+  Object.keys(COUNTERS).map(state => {
     const el = document.getElementById(state)
     if (el) {
       el.parentNode.style = `color: ${COLORS[state]}`
@@ -54,6 +55,11 @@ export const resetValues = (isDesktopNewValue = isDesktop) => {
 
 export const updateCount = () => {
   if (RUN.tick < TOTAL_TICKS) {
+    // calculate max concurrent infected
+    if (RUN.results[STATES.infected] > RUN.results['max-concurrent-infected']) {
+      RUN.results['max-concurrent-infected']++
+    }
+
     Object.entries(domElements).forEach(([state, domElement]) => {
       if (domElement) {
         domElement.innerText = RUN.results[state]
