@@ -1,4 +1,4 @@
-DEFAULT_FILTERS = {
+const DEFAULT_FILTERS = {
   death: false,
   stayHome: false
 }
@@ -51,7 +51,7 @@ export const MORTALITY_PERCENTATGE = 5
 export const SPEED = 1
 export const TOTAL_TICKS = 1600
 export const TICKS_TO_RECOVER = 500
-export const STATIC_PEOPLE_PERCENTATGE = 25
+//export const STATIC_PEOPLE_PERCENTATGE = 25
 
 export const resetRun = () => {
   RUN.results = { ...STARTING_BALLS }
