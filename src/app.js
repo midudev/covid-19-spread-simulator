@@ -4,14 +4,15 @@ import {
   DESKTOP_CANVAS_SIZE,
   STARTING_BALLS,
   RUN,
-  STATIC_PEOPLE_PERCENTATGE,
+//  STATIC_PEOPLE_PERCENTATGE,
   STATES
 } from './options.js'
 
 import {
   replayButton,
   deathFilter,
-  stayHomeFilter
+  stayHomeFilter,
+  STATIC_PEOPLE_PERCENTATGE
 } from './dom.js'
 
 import { Ball } from './Ball.js'
