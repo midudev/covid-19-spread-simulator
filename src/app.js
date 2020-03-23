@@ -12,7 +12,7 @@ import {
   replayButton,
   deathFilter,
   stayHomeFilter,
-  STATIC_PEOPLE_PERCENTATGE
+  static_percent
 } from './dom.js'
 
 import { Ball } from './Ball.js'
@@ -34,7 +34,7 @@ export const canvas = new window.p5(sketch => { // eslint-disable-line
     Object.keys(STARTING_BALLS).forEach(state => {
       Array.from({ length: STARTING_BALLS[state] }, () => {
         const hasMovement = RUN.filters.stayHome
-          ? sketch.random(0, 100) < STATIC_PEOPLE_PERCENTATGE || state === STATES.infected
+          ? sketch.random(0, 100) < static_percent || state === STATES.infected
           : true
 
         balls[id] = new Ball({
