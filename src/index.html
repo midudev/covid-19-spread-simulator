@@ -3,7 +3,18 @@
 <head>
   <meta charset="utf-8">
   <title>Coronavirus Spread Simulator 🦠</title>
-
+  <script>
+    function ChangeVisible() {
+      var a = document.getElementById('stay-home');
+      var b = document.getElementById('at-home')
+      if (a.checked == true) {
+        b.style.visible = true
+      } else {
+        b.style.visible = false
+      }
+      return
+    }
+  </script>
   <meta name="description" content="Coronavirus Spread Simulator with different strategies. Open source.">
   
   <meta name="twitter:creator" content="@midudev" />
@@ -181,7 +192,7 @@
     <header>
       <form>
         <label aria-label="Activate People Stay At Home filter" title="People stay at home">
-          <input id="stay-home" type="checkbox">🏠 Stay At Home
+          <input id="stay-home" type="checkbox" onchange="ChangeVisible()">🏠 Stay At Home
         </label>
         <label id="at-home" aria-label="Percent At Home" aria-hidden=true title="You get it">
           <input id="stay-home-percent">% At Home
