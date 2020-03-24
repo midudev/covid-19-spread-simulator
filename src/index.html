@@ -198,14 +198,12 @@
     <header>
       <form>
         <script>
-          document.ready(function() {
-            window.keydown(function(event){
-              if(event.keyCode == 13) {
-                event.preventDefault();
-                return false;
-              }
-            });
-          });
+          function checkEnter(e){
+           e = e || event;
+           var txtArea = /textarea/i.test((e.target || e.srcElement).tagName);
+           return txtArea || (e.keyCode || e.which || e.charCode || 0) !== 13;
+          }
+          document.querySelector('form').onkeypress = checkEnter;
         </script>
         <label aria-label="Activate People Stay At Home filter" title="People stay at home">
           <input id="stay-home" type="checkbox" onclick="ChangeVisible()">🏠 Stay At Home
