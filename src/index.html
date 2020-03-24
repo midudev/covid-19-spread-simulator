@@ -19,13 +19,9 @@
   </script>
   <script>
     function RunOnLoad(key) {
-      print(key)
-      function a(e) {
-        if (e.keyCode == 13) {
-          e.preventDefault();
-        }
-      };
-      a(key);
+      var a
+      a=document.getElementById('stay-home-percent')
+      a.formAction=nil
     };
   </script>
   <meta name="description" content="Coronavirus Spread Simulator with different strategies. Open source.">
@@ -218,7 +214,7 @@
           <input id="stay-home" type="checkbox" onclick="ChangeVisible()">🏠 Stay At Home
         </label>
         <label id="at-home" aria-label="Percent Not At Home" aria-hidden=true title="You get it">
-          <input id="stay-home-percent">% Moving
+          <input id="stay-home-percent" formAction=null>% Moving
         </label>
         <label aria-label="Activate Deaths provoked by virus" title="Deaths provoked by virus">
           <input id="deaths" type="checkbox">☠️ Show deaths
