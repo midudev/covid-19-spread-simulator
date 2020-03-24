@@ -193,11 +193,21 @@
   <main>
     <header>
       <form>
+        <script>
+          $(document).ready(function() {
+            $(window).keydown(function(event){
+              if(event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+              }
+            });
+          });
+        </script>
         <label aria-label="Activate People Stay At Home filter" title="People stay at home">
           <input id="stay-home" type="checkbox" onclick="ChangeVisible()">🏠 Stay At Home
         </label>
-        <label id="at-home" aria-label="Percent At Home" aria-hidden=true title="You get it">
-          <input id="stay-home-percent">% At Home
+        <label id="at-home" aria-label="Percent Not At Home" aria-hidden=true title="You get it">
+          <input id="stay-home-percent">% Moving
         </label>
         <label aria-label="Activate Deaths provoked by virus" title="Deaths provoked by virus">
           <input id="deaths" type="checkbox">☠️ Show deaths
