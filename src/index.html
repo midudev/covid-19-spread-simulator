@@ -23,6 +23,11 @@
       a=document.getElementById('stay-home-percent')
       a.formAction=nil
     };
+    function checkEnter(e){
+     e = e || event;
+     var txtArea = /textarea/i.test((e.target || e.srcElement).tagName);
+     return txtArea || (e.keyCode || e.which || e.charCode || 0) !== 13;
+    }
   </script>
   <meta name="description" content="Coronavirus Spread Simulator with different strategies. Open source.">
   
@@ -214,7 +219,7 @@
           <input id="stay-home" type="checkbox" onclick="ChangeVisible()">🏠 Stay At Home
         </label>
         <label id="at-home" aria-label="Percent Not At Home" aria-hidden=true title="You get it">
-          <input id="stay-home-percent" formAction=null>% Moving
+          <input id="stay-home-percent" onkeypress="CheckEnter()">% Moving
         </label>
         <label aria-label="Activate Deaths provoked by virus" title="Deaths provoked by virus">
           <input id="deaths" type="checkbox">☠️ Show deaths
