@@ -34,7 +34,7 @@ export const canvas = new window.p5(sketch => { // eslint-disable-line
     Object.keys(STARTING_BALLS).forEach(state => {
       Array.from({ length: STARTING_BALLS[state] }, () => {
         const hasMovement = RUN.filters.stayHome
-          ? sketch.random(0, 100) < static_percent || state === STATES.infected
+          ? sketch.random(0, 100) < static_percent.value || state === STATES.infected
           : true
 
         balls[id] = new Ball({
