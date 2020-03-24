@@ -1,7 +1,7 @@
 import {
   BALL_RADIUS,
   COLORS,
-  MORTALITY_PERCENTATGE,
+//  MORTALITY_PERCENTATGE,
   TICKS_TO_RECOVER,
   RUN,
   SPEED,
@@ -29,7 +29,7 @@ export class Ball {
   checkState () {
     if (this.state === STATES.infected) {
       if (RUN.filters.death && !this.survivor && this.timeInfected >= TICKS_TO_RECOVER / 2) {
-        this.survivor = this.sketch.random(100) >= MORTALITY_PERCENTATGE
+        this.survivor = this.sketch.random(100) >= mortalityrate
         if (!this.survivor) {
           this.hasMovement = false
           this.state = STATES.death
