@@ -18,14 +18,14 @@
     }
   </script>
   <script>
-    function RunOnLoad() {
-      var c
-      c = document.getElementById('stay-home-percent')
-      c.keydown(function (e) {
+    function RunOnLoad(key) {
+      print(key)
+      function a(e) {
         if (e.keyCode == 13) {
           e.preventDefault();
         }
-      });
+      };
+      a(key);
     };
   </script>
   <meta name="description" content="Coronavirus Spread Simulator with different strategies. Open source.">
