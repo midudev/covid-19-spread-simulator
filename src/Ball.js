@@ -1,14 +1,13 @@
 import {
   BALL_RADIUS,
   COLORS,
-//  MORTALITY_PERCENTATGE,
+  MORTALITY_PERCENTATGE,
   TICKS_TO_RECOVER,
   RUN,
   SPEED,
   STATES
 } from './options.js'
 import { checkCollision, calculateChangeDirection } from './collisions.js'
-impirt { deathrate } from './dom.js'
 
 const diameter = BALL_RADIUS * 2
 
@@ -30,7 +29,7 @@ export class Ball {
   checkState () {
     if (this.state === STATES.infected) {
       if (RUN.filters.death && !this.survivor && this.timeInfected >= TICKS_TO_RECOVER / 2) {
-        this.survivor = this.sketch.random(100) >= deathrate.value
+        this.survivor = this.sketch.random(100) >= MORTALITY_PERCENTATGE
         if (!this.survivor) {
           this.hasMovement = false
           this.state = STATES.death
