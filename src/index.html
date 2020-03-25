@@ -15,7 +15,29 @@
         b.style.display = "none"
       }
       return
-    }
+
+    };
+    function ChangeVisible2() {
+      var a
+      a = document.getElementById('deaths')
+      var b
+      b = document.getElementById('deathrate')
+      if (a.checked == true) {
+        b.style.display = null
+      } else {
+        b.style.display = "none"
+      }
+    };
+    function init() {
+      ChangeVisible()
+      ChangeVisible2()
+      var a
+      var b
+      a = document.getElementById('at-home')
+      b = document.getElementById('mortalityrate')
+      a.value = 25
+      b.value = 5
+    };
   </script>
   <script>
 
