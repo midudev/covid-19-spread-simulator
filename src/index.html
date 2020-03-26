@@ -237,7 +237,7 @@
           <input id="stay-home-percent" onkeypress="return function(e){e = e || event;var txtArea = /textarea/i.test((e.target || e.srcElement).tagName);return txtArea || (e.keyCode || e.which || e.charCode || 0) !== 13;}">% Moving
         </label>
         <label aria-label="Activate Deaths provoked by virus" title="Deaths provoked by virus">
-          <input id="deaths" type="checkbox" onclick="ChangeVisibleb()">☠️ Show deaths
+          <input id="deaths" type="checkbox" onmousein="ChangeVisibleb()" onclick="ChangeVisibleb()">☠️ Show deaths
         </label>
         <label id="deathrate">
           <input id="mortalityrate"> Death Rate
