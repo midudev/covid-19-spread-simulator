@@ -20,19 +20,20 @@
   </script>
   <script>
     function ChangeVisibleb() {
-      var a
-      a = document.getElementById('deaths')
-      var b
-      b = document.getElementById('deathrate')
+      var a;
+      a = document.getElementById('deaths');
+      var b;
+      b = document.getElementById('deathrate');
       if (a.checked == true) {
-        b.style.display = null
+        b.style.display = null;
       } else {
-        b.style.display = "none"
-      }
+        b.style.display = "none";
+      };
+      return
     };
     function init() {
       ChangeVisible()
-      ChangeVisibleb()
+//      ChangeVisibleb()
       var a
       var b
       a = document.getElementById('at-home')
