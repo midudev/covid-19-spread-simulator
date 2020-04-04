@@ -4,14 +4,15 @@ import {
   DESKTOP_CANVAS_SIZE,
   STARTING_BALLS,
   RUN,
-  STATIC_PEOPLE_PERCENTATGE,
+//  STATIC_PEOPLE_PERCENTATGE,
   STATES
 } from './options.js'
 
 import {
   replayButton,
   deathFilter,
-  stayHomeFilter
+  stayHomeFilter,
+  static_percent
 } from './dom.js'
 
 import { Ball } from './Ball.js'
@@ -33,7 +34,7 @@ export const canvas = new window.p5(sketch => { // eslint-disable-line
     Object.keys(STARTING_BALLS).forEach(state => {
       Array.from({ length: STARTING_BALLS[state] }, () => {
         const hasMovement = RUN.filters.stayHome
-          ? sketch.random(0, 100) < STATIC_PEOPLE_PERCENTATGE || state === STATES.infected
+          ? sketch.random(0, 100) < static_percent.value || state === STATES.infected
           : true
 
         balls[id] = new Ball({
