@@ -18,7 +18,8 @@ export const COLORS = {
   death: '#c50000',
   recovered: '#D88DBC',
   infected: '#5ABA4A',
-  well: '#63C8F2'
+  well: '#63C8F2',
+  app_installed: '#000000'
 }
 
 export const STATES = {
@@ -26,6 +27,11 @@ export const STATES = {
   well: 'well',
   recovered: 'recovered',
   death: 'death'
+}
+
+export const PREVENTION_APP_STATES = {
+  installed: 'installed',
+  not_installed: 'not_installed'
 }
 
 export const COUNTERS = {

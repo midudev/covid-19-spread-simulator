@@ -12,7 +12,7 @@ import { checkCollision, calculateChangeDirection } from './collisions.js'
 const diameter = BALL_RADIUS * 2
 
 export class Ball {
-  constructor ({ x, y, id, state, sketch, hasMovement }) {
+  constructor ({ x, y, id, state, sketch, hasMovement, has_app_installed: hasAppInstalled }) {
     this.x = x
     this.y = y
     this.vx = sketch.random(-1, 1) * SPEED
@@ -24,6 +24,7 @@ export class Ball {
     this.hasMovement = hasMovement
     this.hasCollision = true
     this.survivor = false
+    this.hasAppInstalled = hasAppInstalled
   }
 
   checkState () {
@@ -38,11 +39,15 @@ export class Ball {
           return
         }
       }
+      if (this.hasAppInstalled) {
+        this.hasMovement = false
+      }
 
       if (this.timeInfected >= TICKS_TO_RECOVER) {
         this.state = STATES.recovered
         RUN.results[STATES.infected]--
         RUN.results[STATES.recovered]++
+        this.hasMovement = true
       } else {
         this.timeInfected++
       }
@@ -74,6 +79,7 @@ export class Ball {
         if (this.state === STATES.recovered || state === STATES.recovered) return
         // then, if some is infected, then we make both infected
         if (this.state === STATES.infected || state === STATES.infected) {
+          if (this.hasAppInstalled && otherBall.hasAppInstalled) return
           this.state = otherBall.state = STATES.infected
           RUN.results[STATES.infected]++
           RUN.results[STATES.well]--
@@ -108,5 +114,9 @@ export class Ball {
     this.sketch.noStroke()
     this.sketch.fill(color)
     this.sketch.ellipse(this.x, this.y, diameter, diameter)
+    if (this.hasAppInstalled) {
+      this.sketch.fill(COLORS.app_installed)
+      this.sketch.ellipse(this.x, this.y, 4, 4)
+    }
   }
 }
