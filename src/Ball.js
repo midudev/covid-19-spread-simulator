@@ -50,39 +50,34 @@ export class Ball {
         RUN.results[STATES.infected]--
         RUN.results[STATES.recovered]++
         this.hasMovement = true
-        if(this.vx > 0) {
-          this.vx = Math.min(SPEED, this.vx *4)
-        }
-        else if (this.vx === 0) {
+        if (this.vx > 0) {
+          this.vx = Math.min(SPEED, this.vx * 4)
+        } else if (this.vx === 0) {
           this.vx = this.sketch.random(-1, 1) * SPEED
+        } else {
+          this.vx = Math.max(-SPEED, this.vx * 4)
         }
-        else {
-          this.vx = Math.max(-SPEED, this.vx *4)
-        }
-        if(this.vy > 0) {
-          this.vy = Math.min(SPEED, this.vy *4)
-        }
-        else if (this.vx === 0) {
+        if (this.vy > 0) {
+          this.vy = Math.min(SPEED, this.vy * 4)
+        } else if (this.vx === 0) {
           this.vy = this.sketch.random(-1, 1) * SPEED
-        }
-        else {
-          this.vy = Math.max(-SPEED, this.vy *4)
+        } else {
+          this.vy = Math.max(-SPEED, this.vy * 4)
         }
       } else {
         this.timeInfected++
       }
     }
     if (this.state === STATES.incubating) {
-    if (this.timeIncubating >= TICKS_TO_INCUBATE) {
-      this.state = STATES.infected
-      RUN.results[STATES.infected]++
-      RUN.results[STATES.incubating]--
-      this.hasMovement = false
-    } 
-    else {
-      this.timeIncubating++
+      if (this.timeIncubating >= TICKS_TO_INCUBATE) {
+        this.state = STATES.infected
+        RUN.results[STATES.infected]++
+        RUN.results[STATES.incubating]--
+        this.hasMovement = false
+      } else {
+        this.timeIncubating++
+      }
     }
-  }
   }
 
   checkCollisions ({ others }) {
@@ -110,21 +105,21 @@ export class Ball {
         if (this.state === STATES.recovered || otherBallState === STATES.recovered) return
         // then, if some is infected, then we make both infected
         if (this.state === STATES.infected || otherBallState === STATES.infected) {
-          if(this.state === STATES.well){
+          if (this.state === STATES.well) {
             this.state = STATES.incubating
             RUN.results[STATES.incubating]++
             RUN.results[STATES.well]--
             if (this.hasAppInstalled && otherBall.hasAppInstalled) {
-              this.hasMovement = false;
+              this.hasMovement = false
             }
           }
-          if(otherBallState === STATES.well){
-              otherBall.state = STATES.incubating
-              RUN.results[STATES.incubating]++
-              RUN.results[STATES.well]--
-              if (this.hasAppInstalled && otherBall.hasAppInstalled) {
-                otherBall.hasMovement = false;
-              }
+          if (otherBallState === STATES.well) {
+            otherBall.state = STATES.incubating
+            RUN.results[STATES.incubating]++
+            RUN.results[STATES.well]--
+            if (this.hasAppInstalled && otherBall.hasAppInstalled) {
+              otherBall.hasMovement = false
+            }
           }
         }
       }
@@ -154,8 +149,6 @@ export class Ball {
 
   render () {
     const color = COLORS[this.state]
-    if(this.state === STATES.incubating)
-      console.log("Current status = " + this.state + " color: " + color)
     this.sketch.noStroke()
     this.sketch.fill(color)
     this.sketch.ellipse(this.x, this.y, diameter, diameter)
