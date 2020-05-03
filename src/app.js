@@ -30,6 +30,10 @@ export const canvas = new window.p5(sketch => { // eslint-disable-line
   const startBalls = () => {
     let id = 0
     const peopleWithAppInPercentage = document.getElementById('app_users')
+    STARTING_BALLS[STATES.infected] = document.getElementById('infected_people').value
+    const maxMovementSpeed = (document.getElementById('max_movement_speed').value * 0.01)
+    const totalPeople = document.getElementById('total_people').value
+    STARTING_BALLS[STATES.well] = totalPeople - STARTING_BALLS[STATES.infected]
     balls = []
     Object.keys(STARTING_BALLS).forEach(state => {
       Array.from({ length: STARTING_BALLS[state] }, () => {
@@ -44,7 +48,8 @@ export const canvas = new window.p5(sketch => { // eslint-disable-line
           hasMovement,
           x: sketch.random(BALL_RADIUS, sketch.width - BALL_RADIUS),
           y: sketch.random(BALL_RADIUS, sketch.height - BALL_RADIUS),
-          has_app_installed: (Math.random() * 100) < peopleWithAppInPercentage.value
+          has_app_installed: (Math.random() * 100) < peopleWithAppInPercentage.value,
+          maxMovementSpeed
         })
         id++
       })
@@ -59,9 +64,10 @@ export const canvas = new window.p5(sketch => { // eslint-disable-line
     sketch.createCanvas(width, height)
   }
 
+  var isRunning = false
+
   sketch.setup = () => {
     createCanvas()
-    startBalls()
 
     matchMedia.addListener(e => {
       isDesktop = e.matches
@@ -71,6 +77,7 @@ export const canvas = new window.p5(sketch => { // eslint-disable-line
     })
 
     replayButton.onclick = () => {
+      isRunning = true
       startBalls()
       resetValues()
     }
@@ -97,6 +104,8 @@ export const canvas = new window.p5(sketch => { // eslint-disable-line
       ball.move()
       ball.render()
     })
-    updateCount()
+    if (isRunning) {
+      updateCount()
+    }
   }
 }, document.getElementById('canvas'))

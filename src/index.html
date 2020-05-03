@@ -71,7 +71,7 @@
       justify-content: center;
       margin: 0 auto;
       user-select: none;
-      width: 360px;
+      width: 900px;
     }
 
     h1 {
@@ -108,6 +108,7 @@
     #count span {
       font-size: 21px;
       font-weight: 800;
+      text-align: center;
     }
 
     footer {
@@ -154,6 +155,35 @@
       width: 100%;
     }
 
+    .parameters {
+      width:15%; 
+      float:left;
+      padding-left:5px;
+    }
+
+    .stats {
+      width: 150px; 
+    }
+
+    .stats {
+      width:85%; 
+      float:right;
+    }
+
+    .graph {
+      width:85%; 
+      float:right;
+    }
+
+
+    .parameterField {
+      margin-bottom: 15px;
+    }
+
+    .parameterTextLine {
+      margin-bottom: 5px;
+    }
+
     #death-count {
       display: none;
     }
@@ -162,14 +192,100 @@
       display: block;
     }
 
-    @media (min-width: 800px) {
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      border-bottom: 1px dotted black;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 200px;
+      background-color: black;
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+      border-radius: 6px;
+    
+      position: absolute;
+      z-index: 1;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+    }
+
+    @media (min-width: 800) and  (max-width:1400px ) {
       body {
-       width: 800px;
+       width: 1200px;
+      }
+      .parameters {
+        width:100%; 
+        margin-left:5px;
+      }
+      .parameterField {
+        width:20%; 
+        float: right;
+      }
+
+      .graph {
+        width: 100%;
+        float: unset;
+      }
+    }
+
+    @media (max-width:800px ) {
+      body {
+       margin-left: 10px;
+       margin-right: 10px;
+       display: inline;
+      }
+      .parameters {
+        width:100%; 
+      }
+      .parameterField {
+        width:100%; 
+        float: left;
+        text-align:center;
+      }
+
+      .stats {
+        width: 100%; 
+        float: unset;
+      }
+
+      .stat {
+        width: 100%; 
+        text-align:center;
       }
 
       h1 {
         font-size: 28px;
       }
+      .graph {
+        width: 100%;
+        float: unset;
+        margin-left: 0px;
+        margin-right: 0px;
+        text-align: center;
+      }
+      #canvas{
+        margin: 0px;
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+
+      #replay {
+      align-items: center;
+      background: rgba(255, 255, 255, .85);
+      cursor: pointer;
+      display: inline;
+      font-weight: 500;
+      font-size: 21px;
+      justify-content: center;
+      position: absolute;
+      text-align: center;
+    }
     }
 
   </style>
@@ -187,37 +303,121 @@
           <input id="deaths" type="checkbox">☠️ Show deaths
         </label>
       </form>
-
-      <div id="count">
-        <div>App users<br /><span id="app_users_span"><select id="app_users">
-          <option  value="0">0%</option>
-          <option selected="selected" value="25">25%</option>
-          <option value="50">50%</option>
-          <option value="60">60%</option>
-          <option value="80">80%</option>
-          <option value="100">100%</option>
-        </select></span></div>
-        <div>Healthy<br /><span id="well">0</span></div>
-        <div>Incubating<br /><span id="incubating">0</span></div>
-        <div>Sick<br /><span id="infected">0</span></div>
-        <div>Recovered<br /><span id="recovered">0</span></div>
-        <div>Max Concurrently Sick<br /><span id="max-concurrent-infected">0</span></div>
-        <div id="death-count">Deaths<br /><span id="death">0</span></div>
+      <div id="header">
+      <div id="parameters" class="parameters">
+        <div class="parameterField">
+          <div class="parameterTextLine tooltip ">
+              Initial people #
+              <span class="tooltiptext">Number of people included in the simulation</span>
+          </div>
+          <br />
+          <span id="total_people_span">
+            <select id="total_people">
+              <option  value="25">25</option>
+              <option value="50">50</option>
+              <option value="75">75</option>
+              <option selected="selected" value="100">100</option>
+              <option value="125">150</option>
+              <option value="200">200</option>
+            </select>
+          </span>
+        </div>
+        <div class="parameterField">
+          <div class="parameterTextLine tooltip ">
+            Initial infected #
+              <span class="tooltiptext">Number of people infected in the beginning of the simulation</span>
+          </div>
+          <br />
+          <span id="infected_people_span">
+            <select id="infected_people">
+              <option selected="selected"  value="1">1</option>
+              <option value="2">2</option>
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>
+          </span>
+        </div>
+        <div class="parameterField">
+          <div class="parameterTextLine tooltip ">
+            App users (%)
+              <span class="tooltiptext">Number of people with the Covid prevention app installed.</span>
+          </div>
+          <br />
+          <span id="app_users_span">
+            <select id="app_users">
+              <option  value="0">0%</option>
+              <option selected="selected" value="25">25%</option>
+              <option value="50">50%</option>
+              <option value="60">60%</option>
+              <option value="80">80%</option>
+              <option value="100">100%</option>
+            </select>
+          </span>
+        </div>
+        <div class="parameterField">
+          <div class="parameterTextLine tooltip ">
+            Speed (%)
+              <span class="tooltiptext">Speed of the people involved in the simulation.</span>
+          </div>
+          <br />
+          <span id="max_movement_speed_span">
+            <select id="max_movement_speed">
+              <option  value="0">0%</option>
+              <option value="25">25%</option>
+              <option value="50">50%</option>
+              <option value="60">60%</option>
+              <option value="80">80%</option>
+              <option  selected="selected" value="100">100%</option>
+            </select>
+          </span>
+        </div>
       </div>
-
+      <div id="count" class="stats">
+        
+        <div class="stat"><div class="tooltip ">
+          Healthy
+            <span class="tooltiptext">Number of people currently being healthy.</span>
+        </div><br /><span id="well">0</span></div>
+        <div class="stat"><div class="tooltip ">
+          Incubating
+            <span class="tooltiptext">Number of people currently incubating COVID-19.</span>
+        </div><br /><span id="incubating">0</span></div>
+        <div class="stat"><div class="tooltip ">
+          Sick
+            <span class="tooltiptext">Number of people currently sick with COVID-19.</span>
+        </div><br /><span id="infected">0</span></div>
+        <div class="stat"><div class="tooltip ">
+          Recovered
+            <span class="tooltiptext">Number of people currently recovered by COVID-19.</span>
+        </div><br /><span id="recovered">0</span></div>
+        <div class="stat"><div class="tooltip ">
+          Max Concurrently Sick
+            <span class="tooltiptext">Highest number of people sick with COVID-19 at the same time.</span>
+        </div><br /><span id="max-concurrent-infected">0</span></div>
+        <div id="death-count" class="stat"><div class="tooltip ">
+          Deaths
+            <span class="tooltiptext">Number of people who died of COVID-19.</span>
+        </div><br /><span id="death">0</span></div>
+      </div>
+    <div class="graph">
       <svg id="graph" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="50" width="100%" aria-labelledby="Graph of virus spread" role="img">
         <title>Graph of virus spread</title>
       </svg>
-    </header>
+    </div>
+  
     <section>
-      <div id="canvas">
-        <div id="replay" style='display: none'>🔁 Run a new simulation</div>
+      <div id="canvas" class="graph">
+        <div id="replay">🔁 Run a new simulation</div>
       </div>
-    </section>
+    </section><
+  </div>
+  </header>
   </main>
   
-  <footer>
-    Based on <a target="_blank" rel="noopener nofollow" href='https://www.washingtonpost.com/graphics/2020/world/corona-simulator/'>Washington Post article</a> | <a href='https://github.com/noiapp/covid-19-spread-simulator' target="_blank" rel="noopener nofollow">Source Code</a> | By <a href='https://midu.dev'>@midudev</a>	    Based on <a target="_blank" rel="noopener nofollow" href='https://www.washingtonpost.com/graphics/2020/world/corona-simulator/'>Washington Post article</a> | <a href='https://github.com/midudev/covid-19-spread-simulator' target="_blank" rel="noopener nofollow">Source Code</a> | By <a href='https://midu.dev'>@midudev</a> 
+<footer>    
+    Based on <a target="_blank" rel="noopener nofollow" href='https://www.washingtonpost.com/graphics/2020/world/corona-simulator/'>Washington Post article</a> | <a href='https://github.com/noiapp/covid-19-spread-simulator' target="_blank" rel="noopener nofollow">Source Code</a> | By <a href='https://midu.dev'>@midudev</a>
   </footer>
 </body>
 </html>

@@ -5,20 +5,23 @@ import {
   TICKS_TO_RECOVER,
   TICKS_TO_INCUBATE,
   RUN,
-  SPEED,
   STATES,
-  DECELERATION_WHEN_SICK
+  ACCELERATION_WHEN_RECOVERED
 } from './options.js'
 import { checkCollision, calculateChangeDirection } from './collisions.js'
 
 const diameter = BALL_RADIUS * 2
 
 export class Ball {
-  constructor ({ x, y, id, state, sketch, hasMovement, has_app_installed: hasAppInstalled }) {
+  constructor ({
+    x, y, id, state, sketch, hasMovement,
+    has_app_installed: hasAppInstalled, maxMovementSpeed
+  }) {
     this.x = x
     this.y = y
-    this.vx = sketch.random(-1, 1) * SPEED
-    this.vy = sketch.random(-1, 1) * SPEED
+    this.maxMovementSpeed = maxMovementSpeed
+    this.vx = sketch.random(-1, 1) * this.maxMovementSpeed
+    this.vy = sketch.random(-1, 1) * this.maxMovementSpeed
     this.sketch = sketch
     this.id = id
     this.state = state
@@ -70,18 +73,18 @@ export class Ball {
 
   accelerateBackToHealthyLevel () {
     if (this.vx > 0) {
-      this.vx = Math.min(SPEED, this.vx * DECELERATION_WHEN_SICK)
+      this.vx = Math.min(this.maxMovementSpeed, this.vx * ACCELERATION_WHEN_RECOVERED)
     } else if (this.vx === 0) {
-      this.vx = this.sketch.random(-1, 1) * SPEED
+      this.vx = this.sketch.random(-1, 1) * this.maxMovementSpeed
     } else {
-      this.vx = Math.max(-SPEED, this.vx * DECELERATION_WHEN_SICK)
+      this.vx = Math.max(-this.maxMovementSpeed, this.vx * ACCELERATION_WHEN_RECOVERED)
     }
     if (this.vy > 0) {
-      this.vy = Math.min(SPEED, this.vy * DECELERATION_WHEN_SICK)
+      this.vy = Math.min(this.maxMovementSpeed, this.vy * ACCELERATION_WHEN_RECOVERED)
     } else if (this.vy === 0) {
-      this.vy = this.sketch.random(-1, 1) * SPEED
+      this.vy = this.sketch.random(-1, 1) * this.maxMovementSpeed
     } else {
-      this.vy = Math.max(-SPEED, this.vy * DECELERATION_WHEN_SICK)
+      this.vy = Math.max(-this.maxMovementSpeed, this.vy * ACCELERATION_WHEN_RECOVERED)
     }
   }
 
@@ -115,7 +118,7 @@ export class Ball {
             RUN.results[STATES.incubating]++
             RUN.results[STATES.well]--
 
-            if (this.hasTheAppInformedOfAContactWithAnInfectedPerson(otherBall)) {
+            if (this.isAwareToBeInfected(otherBall)) {
               // Make the person who was healthy aware of his condition by stopping her movements
               this.hasMovement = false
             }
@@ -124,7 +127,7 @@ export class Ball {
             otherBall.state = STATES.incubating
             RUN.results[STATES.incubating]++
             RUN.results[STATES.well]--
-            if (this.hasTheAppInformedOfAContactWithAnInfectedPerson(otherBall)) {
+            if (this.isAwareToBeInfected(otherBall)) {
               // Make the person who was healthy aware of his condition by stopping her movements
               otherBall.hasMovement = false
             }
@@ -134,7 +137,7 @@ export class Ball {
     }
   }
 
-  hasTheAppInformedOfAContactWithAnInfectedPerson (otherBall) {
+  isAwareToBeInfected (otherBall) {
     return this.hasAppInstalled && otherBall.hasAppInstalled
   }
 
