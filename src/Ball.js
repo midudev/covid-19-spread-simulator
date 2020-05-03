@@ -6,7 +6,8 @@ import {
   TICKS_TO_INCUBATE,
   RUN,
   SPEED,
-  STATES
+  STATES,
+  DECELERATION_WHEN_SICK
 } from './options.js'
 import { checkCollision, calculateChangeDirection } from './collisions.js'
 
@@ -50,20 +51,7 @@ export class Ball {
         RUN.results[STATES.infected]--
         RUN.results[STATES.recovered]++
         this.hasMovement = true
-        if (this.vx > 0) {
-          this.vx = Math.min(SPEED, this.vx * 4)
-        } else if (this.vx === 0) {
-          this.vx = this.sketch.random(-1, 1) * SPEED
-        } else {
-          this.vx = Math.max(-SPEED, this.vx * 4)
-        }
-        if (this.vy > 0) {
-          this.vy = Math.min(SPEED, this.vy * 4)
-        } else if (this.vx === 0) {
-          this.vy = this.sketch.random(-1, 1) * SPEED
-        } else {
-          this.vy = Math.max(-SPEED, this.vy * 4)
-        }
+        this.accelerateBackToHealthyLevel()
       } else {
         this.timeInfected++
       }
@@ -77,6 +65,23 @@ export class Ball {
       } else {
         this.timeIncubating++
       }
+    }
+  }
+
+  accelerateBackToHealthyLevel () {
+    if (this.vx > 0) {
+      this.vx = Math.min(SPEED, this.vx * DECELERATION_WHEN_SICK)
+    } else if (this.vx === 0) {
+      this.vx = this.sketch.random(-1, 1) * SPEED
+    } else {
+      this.vx = Math.max(-SPEED, this.vx * DECELERATION_WHEN_SICK)
+    }
+    if (this.vy > 0) {
+      this.vy = Math.min(SPEED, this.vy * DECELERATION_WHEN_SICK)
+    } else if (this.vy === 0) {
+      this.vy = this.sketch.random(-1, 1) * SPEED
+    } else {
+      this.vy = Math.max(-SPEED, this.vy * DECELERATION_WHEN_SICK)
     }
   }
 
@@ -109,7 +114,9 @@ export class Ball {
             this.state = STATES.incubating
             RUN.results[STATES.incubating]++
             RUN.results[STATES.well]--
-            if (this.hasAppInstalled && otherBall.hasAppInstalled) {
+
+            if (this.hasTheAppInformedOfAContactWithAnInfectedPerson(otherBall)) {
+              // Make the person who was healthy aware of his condition by stopping her movements
               this.hasMovement = false
             }
           }
@@ -117,13 +124,18 @@ export class Ball {
             otherBall.state = STATES.incubating
             RUN.results[STATES.incubating]++
             RUN.results[STATES.well]--
-            if (this.hasAppInstalled && otherBall.hasAppInstalled) {
+            if (this.hasTheAppInformedOfAContactWithAnInfectedPerson(otherBall)) {
+              // Make the person who was healthy aware of his condition by stopping her movements
               otherBall.hasMovement = false
             }
           }
         }
       }
     }
+  }
+
+  hasTheAppInformedOfAContactWithAnInfectedPerson (otherBall) {
+    return this.hasAppInstalled && otherBall.hasAppInstalled
   }
 
   move () {
