@@ -61,6 +61,7 @@ export const SPEED = 1
 export const TOTAL_TICKS = 1600
 export const TICKS_TO_RECOVER = 500
 export const TICKS_TO_INCUBATE = 100
+export const DECELERATION_WHEN_SICK = 100
 export const STATIC_PEOPLE_PERCENTATGE = 25
 
 export const resetRun = () => {
