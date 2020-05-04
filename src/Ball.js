@@ -5,7 +5,6 @@ import {
   TICKS_TO_RECOVER,
   TICKS_TO_INCUBATE,
   RUN,
-  SPEED,
   STATES
 } from './options.js'
 import { checkCollision, calculateChangeDirection } from './collisions.js'
@@ -69,7 +68,6 @@ export class Ball {
       }
     }
   }
-
 
   checkCollisions ({ others }) {
     if (this.state === STATES.death) return
