@@ -5,7 +5,8 @@ import {
   STARTING_BALLS,
   RUN,
   STATIC_PEOPLE_PERCENTATGE,
-  STATES
+  STATES,
+  SPEED_FROM_UI_MULTIPLIER
 } from './options.js'
 
 import {
@@ -31,7 +32,8 @@ export const canvas = new window.p5(sketch => { // eslint-disable-line
     let id = 0
     const peopleWithAppInPercentage = document.getElementById('app_users')
     STARTING_BALLS[STATES.infected] = document.getElementById('infected_people').value
-    const maxMovementSpeed = (document.getElementById('max_movement_speed').value * 0.01)
+    const maxMovementSpeed =
+      (document.getElementById('max_movement_speed').value * SPEED_FROM_UI_MULTIPLIER)
     const totalPeople = document.getElementById('total_people').value
     STARTING_BALLS[STATES.well] = totalPeople - STARTING_BALLS[STATES.infected]
     balls = []
