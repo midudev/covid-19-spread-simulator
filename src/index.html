@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Coronavirus Spread Simulator 🦠</title>
 
   <meta name="description" content="Coronavirus Spread Simulator with different strategies. Open source.">
-  
+
   <meta name="twitter:creator" content="@midudev" />
   <meta name="twitter:domain" content="midu.dev" />
   <meta name="twitter:image" content="https://corona-virus-spread-simulator.midudev.now.sh/assets/og.jpg" />
@@ -28,15 +29,17 @@
   <link as="script" rel="modulepreload" href="./Ball.js" />
   <link as="script" rel="modulepreload" href="./results.js" />
   <link as="script" rel="modulepreload" href="./collisions.js" />
-  
+
   <script defer src="./p5.min.js"></script>
   <script type="module" src="./app.js"></script>
   <style>
     html {
       box-sizing: border-box;
     }
-    
-    *, *:before, *:after {
+
+    *,
+    *:before,
+    *:after {
       box-sizing: inherit;
     }
 
@@ -71,7 +74,7 @@
       justify-content: center;
       margin: 0 auto;
       user-select: none;
-      width: 360px;
+      width: 900px;
     }
 
     h1 {
@@ -108,6 +111,7 @@
     #count span {
       font-size: 21px;
       font-weight: 800;
+      text-align: center;
     }
 
     footer {
@@ -154,6 +158,35 @@
       width: 100%;
     }
 
+    .parameters {
+      width: 15%;
+      float: left;
+      padding-left: 5px;
+    }
+
+    .stats {
+      width: 150px;
+    }
+
+    .stats {
+      width: 85%;
+      float: right;
+    }
+
+    .graph {
+      width: 85%;
+      float: right;
+    }
+
+
+    .parameterField {
+      margin-bottom: 15px;
+    }
+
+    .parameterTextLine {
+      margin-bottom: 5px;
+    }
+
     #death-count {
       display: none;
     }
@@ -162,20 +195,118 @@
       display: block;
     }
 
-    @media (min-width: 800px) {
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      border-bottom: 1px dotted black;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 200px;
+      background-color: black;
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+      border-radius: 6px;
+
+      position: absolute;
+      z-index: 1;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+    }
+
+    @media (min-width: 800) and (max-width:1400px) {
       body {
-       width: 800px;
+        width: 1200px;
+      }
+
+      .parameters {
+        width: 100%;
+        margin-left: 5px;
+      }
+
+      .parameterField {
+        width: 20%;
+        float: right;
+      }
+
+      .graph {
+        width: 100%;
+        float: unset;
+      }
+    }
+
+    @media (max-width:800px) {
+      body {
+        margin-left: 10px;
+        margin-right: 10px;
+        display: inline;
+      }
+
+      .parameters {
+        width: 100%;
+      }
+
+      .parameterField {
+        width: 100%;
+        float: left;
+        text-align: center;
+      }
+
+      .stats {
+        width: 100%;
+        float: unset;
+      }
+
+      .stat {
+        width: 100%;
+        text-align: center;
       }
 
       h1 {
         font-size: 28px;
       }
-    }
 
+      .graph {
+        width: 100%;
+        float: unset;
+        margin-left: 0px;
+        margin-right: 0px;
+        text-align: center;
+      }
+
+      #canvas {
+        margin: 0px;
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+
+      #replay {
+        align-items: center;
+        background: rgba(255, 255, 255, .85);
+        cursor: pointer;
+        display: inline;
+        font-weight: 500;
+        font-size: 21px;
+        justify-content: center;
+        position: absolute;
+        text-align: center;
+      }
+    }
   </style>
 </head>
+
 <body>
-  <a id="share" href='https://twitter.com/intent/tweet?text=%C2%A1Mira%20en%20este%20simulador%20como%20el%20%23YoMeQuedoEnCasa%20ayuda%20a%20luchar%20el%20%23Coronavirus%20%F0%9F%A6%A0!&url=https%3A%2F%2Fcorona-virus-spread-simulator.midudev.now.sh%2F&via=midudev' rel='noopener nofollow' target='_blank'><svg viewBox="0 0 612 612" width="24"><path d="M612 116.258a250.714 250.714 0 0 1-72.088 19.772c25.929-15.527 45.777-40.155 55.184-69.411-24.322 14.379-51.169 24.82-79.775 30.48-22.907-24.437-55.49-39.658-91.63-39.658-69.334 0-125.551 56.217-125.551 125.513 0 9.828 1.109 19.427 3.251 28.606-104.326-5.24-196.835-55.223-258.75-131.174-10.823 18.51-16.98 40.078-16.98 63.101 0 43.559 22.181 81.993 55.835 104.479a125.556 125.556 0 0 1-56.867-15.756v1.568c0 60.806 43.291 111.554 100.693 123.104-10.517 2.83-21.607 4.398-33.08 4.398-8.107 0-15.947-.803-23.634-2.333 15.985 49.907 62.336 86.199 117.253 87.194-42.947 33.654-97.099 53.655-155.916 53.655-10.134 0-20.116-.612-29.944-1.721 55.567 35.681 121.536 56.485 192.438 56.485 230.948 0 357.188-191.291 357.188-357.188l-.421-16.253c24.666-17.593 46.005-39.697 62.794-64.861z" fill='#1DA1F2' ></path></svg> Compartir</a>
+  <a id="share"
+    href='https://twitter.com/intent/tweet?text=%C2%A1Mira%20en%20este%20simulador%20como%20el%20%23YoMeQuedoEnCasa%20ayuda%20a%20luchar%20el%20%23Coronavirus%20%F0%9F%A6%A0!&url=https%3A%2F%2Fcorona-virus-spread-simulator.midudev.now.sh%2F&via=midudev'
+    rel='noopener nofollow' target='_blank'><svg viewBox="0 0 612 612" width="24">
+      <path
+        d="M612 116.258a250.714 250.714 0 0 1-72.088 19.772c25.929-15.527 45.777-40.155 55.184-69.411-24.322 14.379-51.169 24.82-79.775 30.48-22.907-24.437-55.49-39.658-91.63-39.658-69.334 0-125.551 56.217-125.551 125.513 0 9.828 1.109 19.427 3.251 28.606-104.326-5.24-196.835-55.223-258.75-131.174-10.823 18.51-16.98 40.078-16.98 63.101 0 43.559 22.181 81.993 55.835 104.479a125.556 125.556 0 0 1-56.867-15.756v1.568c0 60.806 43.291 111.554 100.693 123.104-10.517 2.83-21.607 4.398-33.08 4.398-8.107 0-15.947-.803-23.634-2.333 15.985 49.907 62.336 86.199 117.253 87.194-42.947 33.654-97.099 53.655-155.916 53.655-10.134 0-20.116-.612-29.944-1.721 55.567 35.681 121.536 56.485 192.438 56.485 230.948 0 357.188-191.291 357.188-357.188l-.421-16.253c24.666-17.593 46.005-39.697 62.794-64.861z"
+        fill='#1DA1F2'></path>
+    </svg> Compartir</a>
   <h1>COVID-19 Spread Simulator 🦠</h1>
   <main>
     <header>
@@ -187,37 +318,138 @@
           <input id="deaths" type="checkbox">☠️ Show deaths
         </label>
       </form>
+      <div id="header">
+        <div id="parameters" class="parameters">
+          <div class="parameterField">
+            <div class="parameterTextLine tooltip ">
+              Initial people #
+              <span class="tooltiptext">Number of people included in the simulation</span>
+            </div>
+            <br />
+            <span id="total_people_span">
+              <select id="total_people">
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="75">75</option>
+                <option selected="selected" value="100">100</option>
+                <option value="125">150</option>
+                <option value="200">200</option>
+              </select>
+            </span>
+          </div>
+          <div class="parameterField">
+            <div class="parameterTextLine tooltip ">
+              Initial infected #
+              <span class="tooltiptext">Number of people infected in the beginning of the simulation</span>
+            </div>
+            <br />
+            <span id="infected_people_span">
+              <select id="infected_people">
+                <option selected="selected" value="1">1</option>
+                <option value="2">2</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+              </select>
+            </span>
+          </div>
+          <div class="parameterField">
+            <div class="parameterTextLine tooltip ">
+              App users (%)
+              <span class="tooltiptext">Number of people with the Covid prevention app installed.</span>
+            </div>
+            <br />
+            <span id="app_users_span">
+              <select id="app_users">
+                <option value="0">0%</option>
+                <option selected="selected" value="25">25%</option>
+                <option value="50">50%</option>
+                <option value="60">60%</option>
+                <option value="80">80%</option>
+                <option value="100">100%</option>
+              </select>
+            </span>
+          </div>
+          <div class="parameterField">
+            <div class="parameterTextLine tooltip ">
+              Speed (%)
+              <span class="tooltiptext">Speed of the people involved in the simulation.</span>
+            </div>
+            <br />
+            <span id="max_movement_speed_span">
+              <select id="max_movement_speed">
+                <option value="0">0%</option>
+                <option value="25">25%</option>
+                <option value="50">50%</option>
+                <option value="60">60%</option>
+                <option value="80">80%</option>
+                <option selected="selected" value="100">100%</option>
+              </select>
+            </span>
+          </div>
+        </div>
+        <div id="count" class="stats">
 
-      <div id="count">
-        <div>App users<br /><span id="app_users_span"><select id="app_users">
-          <option  value="0">0%</option>
-          <option selected="selected" value="25">25%</option>
-          <option value="50">50%</option>
-          <option value="60">60%</option>
-          <option value="80">80%</option>
-          <option value="100">100%</option>
-        </select></span></div>
-        <div>Healthy<br /><span id="well">0</span></div>
-        <div>Incubating<br /><span id="incubating">0</span></div>
-        <div>Sick<br /><span id="infected">0</span></div>
-        <div>Recovered<br /><span id="recovered">0</span></div>
-        <div>Max Concurrently Sick<br /><span id="max-concurrent-infected">0</span></div>
-        <div id="death-count">Deaths<br /><span id="death">0</span></div>
+          <div class="stat">
+            <div class="tooltip ">
+              Healthy
+              <span class="tooltiptext">Number of people currently being healthy.</span>
+            </div><br /><span id="well">0</span>
+          </div>
+          <div class="stat">
+            <div class="tooltip ">
+              Incubating
+              <span class="tooltiptext">Number of people currently incubating COVID-19.</span>
+            </div><br /><span id="incubating">0</span>
+          </div>
+          <div class="stat">
+            <div class="tooltip ">
+              Sick
+              <span class="tooltiptext">Number of people currently sick with COVID-19.</span>
+            </div><br /><span id="infected">0</span>
+          </div>
+          <div class="stat">
+            <div class="tooltip ">
+              Recovered
+              <span class="tooltiptext">Number of people currently recovered by COVID-19.</span>
+            </div><br /><span id="recovered">0</span>
+          </div>
+          <div class="stat">
+            <div class="tooltip ">
+              Max Concurrently Sick
+              <span class="tooltiptext">Highest number of people sick with COVID-19 at the same time.</span>
+            </div><br /><span id="max-concurrent-infected">0</span>
+          </div>
+          <div id="death-count" class="stat">
+            <div class="tooltip ">
+              Deaths
+              <span class="tooltiptext">Number of people who died of COVID-19.</span>
+            </div><br /><span id="death">0</span>
+          </div>
+        </div>
+        <div class="graph">
+          <svg id="graph" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            height="50" width="100%" aria-labelledby="Graph of virus spread" role="img">
+            <title>Graph of virus spread</title>
+          </svg>
+        </div>
+
+        <section>
+          <div id="canvas" class="graph">
+            <div id="replay">🔁 Run a new simulation</div>
+          </div>
+        </section>
       </div>
-
-      <svg id="graph" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="50" width="100%" aria-labelledby="Graph of virus spread" role="img">
-        <title>Graph of virus spread</title>
-      </svg>
     </header>
-    <section>
-      <div id="canvas">
-        <div id="replay" style='display: none'>🔁 Run a new simulation</div>
-      </div>
-    </section>
   </main>
-  
+
   <footer>
-    Based on <a target="_blank" rel="noopener nofollow" href='https://www.washingtonpost.com/graphics/2020/world/corona-simulator/'>Washington Post article</a> | <a href='https://github.com/noiapp/covid-19-spread-simulator' target="_blank" rel="noopener nofollow">Source Code</a> | By <a href='https://midu.dev'>@midudev</a>	    Based on <a target="_blank" rel="noopener nofollow" href='https://www.washingtonpost.com/graphics/2020/world/corona-simulator/'>Washington Post article</a> | <a href='https://github.com/midudev/covid-19-spread-simulator' target="_blank" rel="noopener nofollow">Source Code</a> | By <a href='https://midu.dev'>@midudev</a> 
+    Based on <a target="_blank" rel="noopener nofollow"
+      href='https://www.washingtonpost.com/graphics/2020/world/corona-simulator/'>Washington Post article</a> | <a
+      href='https://github.com/noiapp/covid-19-spread-simulator' target="_blank" rel="noopener nofollow">Source Code</a>
+    | By <a href='https://midu.dev'>@midudev</a>
   </footer>
 </body>
+
 </html>

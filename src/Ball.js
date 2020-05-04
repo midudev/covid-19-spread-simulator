@@ -5,7 +5,6 @@ import {
   TICKS_TO_RECOVER,
   TICKS_TO_INCUBATE,
   RUN,
-  SPEED,
   STATES
 } from './options.js'
 import { checkCollision, calculateChangeDirection } from './collisions.js'
@@ -13,11 +12,15 @@ import { checkCollision, calculateChangeDirection } from './collisions.js'
 const diameter = BALL_RADIUS * 2
 
 export class Ball {
-  constructor ({ x, y, id, state, sketch, hasMovement, has_app_installed: hasAppInstalled }) {
+  constructor ({
+    x, y, id, state, sketch, hasMovement,
+    has_app_installed: hasAppInstalled, maxMovementSpeed
+  }) {
     this.x = x
     this.y = y
-    this.vx = sketch.random(-1, 1) * SPEED
-    this.vy = sketch.random(-1, 1) * SPEED
+    this.maxMovementSpeed = maxMovementSpeed
+    this.vx = sketch.random(-1, 1) * this.maxMovementSpeed
+    this.vy = sketch.random(-1, 1) * this.maxMovementSpeed
     this.sketch = sketch
     this.id = id
     this.state = state
@@ -102,7 +105,7 @@ export class Ball {
             RUN.results[STATES.incubating]++
             RUN.results[STATES.well]--
 
-            if (this.hasTheAppInformedOfAContactWithAnInfectedPerson(otherBall)) {
+            if (this.isAwareToBeInfected(otherBall)) {
               // Make the person who was healthy aware of his condition by stopping her movements
               this.hasMovement = false
             }
@@ -111,7 +114,7 @@ export class Ball {
             otherBall.state = STATES.incubating
             RUN.results[STATES.incubating]++
             RUN.results[STATES.well]--
-            if (this.hasTheAppInformedOfAContactWithAnInfectedPerson(otherBall)) {
+            if (this.isAwareToBeInfected(otherBall)) {
               // Make the person who was healthy aware of his condition by stopping her movements
               otherBall.hasMovement = false
             }
@@ -121,7 +124,7 @@ export class Ball {
     }
   }
 
-  hasTheAppInformedOfAContactWithAnInfectedPerson (otherBall) {
+  isAwareToBeInfected (otherBall) {
     return this.hasAppInstalled && otherBall.hasAppInstalled
   }
 
