@@ -9,7 +9,13 @@ import {
 
 import {
   graphElement,
-  replayElement
+  replayElement,
+  appUsersElement,
+  totalPeopleElement,
+  infectedPeopleElement,
+  maxMovementSpeedElement,
+  deathElement,
+  stayHomeElement
 } from './dom.js'
 
 let graphPoint = 0
@@ -29,10 +35,11 @@ const domElements = Object.fromEntries(
 
 const updateGraph = () => {
   let y = 0
+  const totalPeople = document.getElementById('total_people').value
   const rects = Object.entries(RUN.results).map(([state, count]) => {
     const color = COLORS[state]
     if (count > 0) {
-      const percentatge = count / 200 * 50
+      const percentatge = count / totalPeople * 50
       const rect = `<rect height="${percentatge}" y="${y}" width="1" fill="${color}"></rect>`
       y += percentatge
       return rect
@@ -48,6 +55,12 @@ const updateGraph = () => {
 export const resetValues = (isDesktopNewValue = isDesktop) => {
   graphElement.innerHTML = ''
   replayElement.style.display = 'none'
+  appUsersElement.disabled = true
+  totalPeopleElement.disabled = true
+  infectedPeopleElement.disabled = true
+  maxMovementSpeedElement.disabled = true
+  deathElement.disabled = true
+  stayHomeElement.disabled = true
   graphPoint = 0
   isDesktop = isDesktopNewValue
   resetRun()
@@ -75,6 +88,12 @@ export const updateCount = () => {
 
   if (RUN.tick === TOTAL_TICKS) {
     replayElement.style.display = 'flex'
+    appUsersElement.disabled = false
+    totalPeopleElement.disabled = false
+    infectedPeopleElement.disabled = false
+    maxMovementSpeedElement.disabled = false
+    deathElement.disabled = false
+    stayHomeElement.disabled = false
   } else {
     RUN.tick++
   }

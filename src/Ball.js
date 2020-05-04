@@ -3,8 +3,8 @@ import {
   COLORS,
   MORTALITY_PERCENTATGE,
   TICKS_TO_RECOVER,
+  TICKS_TO_INCUBATE,
   RUN,
-  SPEED,
   STATES
 } from './options.js'
 import { checkCollision, calculateChangeDirection } from './collisions.js'
@@ -12,18 +12,24 @@ import { checkCollision, calculateChangeDirection } from './collisions.js'
 const diameter = BALL_RADIUS * 2
 
 export class Ball {
-  constructor ({ x, y, id, state, sketch, hasMovement }) {
+  constructor ({
+    x, y, id, state, sketch, hasMovement,
+    has_app_installed: hasAppInstalled, maxMovementSpeed
+  }) {
     this.x = x
     this.y = y
-    this.vx = sketch.random(-1, 1) * SPEED
-    this.vy = sketch.random(-1, 1) * SPEED
+    this.maxMovementSpeed = maxMovementSpeed
+    this.vx = sketch.random(-1, 1) * this.maxMovementSpeed
+    this.vy = sketch.random(-1, 1) * this.maxMovementSpeed
     this.sketch = sketch
     this.id = id
     this.state = state
     this.timeInfected = 0
+    this.timeIncubating = 0
     this.hasMovement = hasMovement
     this.hasCollision = true
     this.survivor = false
+    this.hasAppInstalled = hasAppInstalled
   }
 
   checkState () {
@@ -38,13 +44,27 @@ export class Ball {
           return
         }
       }
+      if (this.hasAppInstalled) {
+        this.hasMovement = false
+      }
 
       if (this.timeInfected >= TICKS_TO_RECOVER) {
         this.state = STATES.recovered
         RUN.results[STATES.infected]--
         RUN.results[STATES.recovered]++
+        this.hasMovement = true
       } else {
         this.timeInfected++
+      }
+    }
+    if (this.state === STATES.incubating) {
+      if (this.timeIncubating >= TICKS_TO_INCUBATE) {
+        this.state = STATES.infected
+        RUN.results[STATES.infected]++
+        RUN.results[STATES.incubating]--
+        this.hasMovement = false
+      } else {
+        this.timeIncubating++
       }
     }
   }
@@ -54,32 +74,58 @@ export class Ball {
 
     for (let i = this.id + 1; i < others.length; i++) {
       const otherBall = others[i]
-      const { state, x, y } = otherBall
-      if (state === STATES.death) continue
+      const { state: otherBallState, x: otherBallX, y: otherBallY } = otherBall
+      if (otherBallState === STATES.death) continue
 
-      const dx = x - this.x
-      const dy = y - this.y
+      const dx = otherBallX - this.x
+      const dy = otherBallY - this.y
 
       if (checkCollision({ dx, dy, diameter: BALL_RADIUS * 2 })) {
         const { ax, ay } = calculateChangeDirection({ dx, dy })
 
-        this.vx -= ax
-        this.vy -= ay
-        otherBall.vx = ax
-        otherBall.vy = ay
+        // apply the movement just to balls that can move
+        // (otherwise they accumulate acceleration/energy for the future)
+        if (this.hasMovement) {
+          this.vx -= ax
+          this.vy -= ay
+        }
+        if (otherBall.hasMovement) {
+          otherBall.vx = ax
+          otherBall.vy = ay
+        }
 
         // both has same state, so nothing to do
-        if (this.state === state) return
+        if (this.state === otherBallState) return
         // if any is recovered, then nothing happens
-        if (this.state === STATES.recovered || state === STATES.recovered) return
+        if (this.state === STATES.recovered || otherBallState === STATES.recovered) return
         // then, if some is infected, then we make both infected
-        if (this.state === STATES.infected || state === STATES.infected) {
-          this.state = otherBall.state = STATES.infected
-          RUN.results[STATES.infected]++
-          RUN.results[STATES.well]--
+        if (this.state === STATES.infected || otherBallState === STATES.infected) {
+          if (this.state === STATES.well) {
+            this.state = STATES.incubating
+            RUN.results[STATES.incubating]++
+            RUN.results[STATES.well]--
+
+            if (this.isAwareToBeInfected(otherBall)) {
+              // Make the person who was healthy aware of his condition by stopping her movements
+              this.hasMovement = false
+            }
+          }
+          if (otherBallState === STATES.well) {
+            otherBall.state = STATES.incubating
+            RUN.results[STATES.incubating]++
+            RUN.results[STATES.well]--
+            if (this.isAwareToBeInfected(otherBall)) {
+              // Make the person who was healthy aware of his condition by stopping her movements
+              otherBall.hasMovement = false
+            }
+          }
         }
       }
     }
+  }
+
+  isAwareToBeInfected (otherBall) {
+    return this.hasAppInstalled && otherBall.hasAppInstalled
   }
 
   move () {
@@ -108,5 +154,9 @@ export class Ball {
     this.sketch.noStroke()
     this.sketch.fill(color)
     this.sketch.ellipse(this.x, this.y, diameter, diameter)
+    if (this.hasAppInstalled) {
+      this.sketch.fill(COLORS.app_installed)
+      this.sketch.ellipse(this.x, this.y, 4, 4)
+    }
   }
 }
