@@ -5,8 +5,8 @@ import {
   TICKS_TO_RECOVER,
   TICKS_TO_INCUBATE,
   RUN,
-  STATES,
-  ACCELERATION_WHEN_RECOVERED
+  SPEED,
+  STATES
 } from './options.js'
 import { checkCollision, calculateChangeDirection } from './collisions.js'
 
@@ -54,7 +54,6 @@ export class Ball {
         RUN.results[STATES.infected]--
         RUN.results[STATES.recovered]++
         this.hasMovement = true
-        this.accelerateBackToHealthyLevel()
       } else {
         this.timeInfected++
       }
@@ -71,22 +70,6 @@ export class Ball {
     }
   }
 
-  accelerateBackToHealthyLevel () {
-    if (this.vx > 0) {
-      this.vx = Math.min(this.maxMovementSpeed, this.vx * ACCELERATION_WHEN_RECOVERED)
-    } else if (this.vx === 0) {
-      this.vx = this.sketch.random(-1, 1) * this.maxMovementSpeed
-    } else {
-      this.vx = Math.max(-this.maxMovementSpeed, this.vx * ACCELERATION_WHEN_RECOVERED)
-    }
-    if (this.vy > 0) {
-      this.vy = Math.min(this.maxMovementSpeed, this.vy * ACCELERATION_WHEN_RECOVERED)
-    } else if (this.vy === 0) {
-      this.vy = this.sketch.random(-1, 1) * this.maxMovementSpeed
-    } else {
-      this.vy = Math.max(-this.maxMovementSpeed, this.vy * ACCELERATION_WHEN_RECOVERED)
-    }
-  }
 
   checkCollisions ({ others }) {
     if (this.state === STATES.death) return
@@ -102,10 +85,16 @@ export class Ball {
       if (checkCollision({ dx, dy, diameter: BALL_RADIUS * 2 })) {
         const { ax, ay } = calculateChangeDirection({ dx, dy })
 
-        this.vx -= ax
-        this.vy -= ay
-        otherBall.vx = ax
-        otherBall.vy = ay
+        // apply the movement just to balls that can move
+        // (otherwise they accumulate acceleration/energy for the future)
+        if (this.hasMovement) {
+          this.vx -= ax
+          this.vy -= ay
+        }
+        if (otherBall.hasMovement) {
+          otherBall.vx = ax
+          otherBall.vy = ay
+        }
 
         // both has same state, so nothing to do
         if (this.state === otherBallState) return

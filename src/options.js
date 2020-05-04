@@ -60,7 +60,6 @@ export const MORTALITY_PERCENTATGE = 5
 export const TOTAL_TICKS = 1600
 export const TICKS_TO_RECOVER = 500
 export const TICKS_TO_INCUBATE = 100
-export const ACCELERATION_WHEN_RECOVERED = 4
 export const STATIC_PEOPLE_PERCENTATGE = 25
 
 export const resetRun = () => {
