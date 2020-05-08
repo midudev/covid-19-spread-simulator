@@ -29,6 +29,7 @@ let isDesktop = matchMedia.matches
 export const canvas = new window.p5(sketch => { // eslint-disable-line
   const startBalls = () => {
     let id = 0
+    const peopleWithAppInPercentage = document.getElementById('app_users')
     balls = []
     Object.keys(STARTING_BALLS).forEach(state => {
       Array.from({ length: STARTING_BALLS[state] }, () => {
@@ -42,7 +43,8 @@ export const canvas = new window.p5(sketch => { // eslint-disable-line
           state,
           hasMovement,
           x: sketch.random(BALL_RADIUS, sketch.width - BALL_RADIUS),
-          y: sketch.random(BALL_RADIUS, sketch.height - BALL_RADIUS)
+          y: sketch.random(BALL_RADIUS, sketch.height - BALL_RADIUS),
+          has_app_installed: (Math.random() * 100) < peopleWithAppInPercentage.value
         })
         id++
       })
