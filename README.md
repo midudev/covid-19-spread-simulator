@@ -1,5 +1,11 @@
 # COVID-19 (Coronavirus) spread simulator 🦠
 
+--- 
+
+Modified to add the  "app" factor by Marco Pierobon
+
+---
+
 Check simulations about how confinement people could help to stop spreading Coronavirus.
 
 [Based on Washington Post Article: Why outbreaks like coronavirus spread exponentially, and how to “flatten the curve” - Washington Post](https://www.washingtonpost.com/graphics/2020/world/corona-simulator/)
